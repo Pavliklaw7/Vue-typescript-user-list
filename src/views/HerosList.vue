@@ -19,5 +19,9 @@ export default {
   methods: {
 
   },
+
+  created() {
+    this.$store.dispatch('fetchHeroes');
+  },
 };
 </script>
