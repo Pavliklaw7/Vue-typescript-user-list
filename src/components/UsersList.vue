@@ -55,63 +55,58 @@
   </div>
 </template>
 
-<script lang="">
+<script lang="ts">
 import Vue from 'vue';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import ContextMenu from 'primevue/contextmenu';
+import { Component, Emit, Prop, Watch } from 'vue-property-decorator';
+import { User } from '../User';
 
-export default Vue.extend({
-  name: 'UsersList',
-  props: ['users'],
-  components: {
-    DataTable,
-    Column,
-    ContextMenu,
-  },
-  data() {
-    return {
-      selectedUsers: [],
-      columns: [
-        { field: 'name', header: 'Name' },
-        { field: 'userName', header: 'UserName' },
-        { field: 'email', header: 'Email' },
-        { field: 'role', header: 'Role(s)' },
-      ],
-      items: [
-        {
-          label: 'Reset password',
-          icon: 'pi pi-fw pi-refresh',
-        },
-        {
-          label: 'Disable selected users',
-          icon: 'pi pi-fw pi-eye-slash',
-        },
-        {
-          label: 'Delete selected users',
-          icon: 'pi pi-fw pi-trash',
-          command: this.deleteUsers,
-        },
-      ],
-    };
-  },
-  methods: {
+@Component({})
+export default class UsersList extends Vue {
+  @Prop() ['users']
+
+    selectedUsers: User[] = [];
+
+    columns: [
+      { field: 'name', header: 'Name' },
+      { field: 'userName', header: 'UserName' },
+      { field: 'email', header: 'Email' },
+      { field: 'role', header: 'Role(s)' },
+    ]
+
+    items: [
+      {
+        label: 'Reset password',
+        icon: 'pi pi-fw pi-refresh',
+      },
+      {
+        label: 'Disable selected users',
+        icon: 'pi pi-fw pi-eye-slash',
+      },
+      {
+        label: 'Delete selected users',
+        icon: 'pi pi-fw pi-trash',
+        command: this.deleteUsers, // how to fix?
+      },
+    ]
+
     selectAllUsers() {
-      if (!this.selectedUsers.includes('allUsers')) {
+      if (!this.selectedUsers.includes('allUsers')) { // how to fix?
         this.selectedUsers = this.users.map((user) => user.id);
       } else {
         this.selectedUsers = [];
       }
-    },
+    }
+
     contextMenu(event) {
-      this.$refs.menu.show(event);
-    },
+      (this.$refs.cm as Vue & {show: () => boolean }).show();
+    }
+
     selectUser(id) {
       this.selectedUsers.push(id);
-    },
+    }
+
     deleteUsers() {
       this.$emit('delete-users', this.selectedUsers);
-    },
-  },
-});
+    }
+};
 </script>

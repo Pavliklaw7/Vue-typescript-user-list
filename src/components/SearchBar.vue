@@ -10,23 +10,14 @@
   </span>
 </template>
 
-<script>
-import InputText from 'primevue/inputtext';
+<script lang="ts">
+import Vue from 'vue';
 
-export default {
-  name: 'SearchBar',
-  components: {
-    InputText,
-  },
-  data() {
-    return {
-      searchQuery: '',
-    };
-  },
-  methods: {
-    setQuery() {
-      this.$emit('set-query', this.searchQuery);
-    },
-  },
-};
+export default class SearchBar extends Vue {
+  searchQuery: ''
+
+  setQuery() {
+    this.$emit('set-query', this.searchQuery);
+  }
+}
 </script>

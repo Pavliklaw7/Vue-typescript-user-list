@@ -92,63 +92,54 @@
   </div>
 </template>
 
-<script>
-import SplitButton from 'primevue/splitbutton';
-import Dialog from 'primevue/dialog';
-import InputText from 'primevue/inputtext';
-import Dropdown from 'primevue/dropdown';
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
 import '../assets/scss/theme/_colors.scss';
 
-export default {
-  name: 'AddUser',
-  components: {
-    SplitButton,
-    Dialog,
-    InputText,
-    Dropdown,
-  },
-  data() {
-    return {
-      button: null,
-      displayModal: false,
+@Component({})
+export default class AddUser extends Vue {
+  button: null
+
+  displayModal: false | true
+
       user: {
         name: null,
         userName: null,
         email: null,
         role: 'admin',
-      },
+      }
+
       roles: [
         { name: 'admin' },
         { name: 'user' },
         { name: 'modeler' },
         { name: 'master' },
-      ],
-    };
-  },
-  methods: {
-    toggleModal() {
-      this.displayModal = !this.displayModal;
-    },
-    onSubmit() {
-      if (Object.values(this.user).includes(null)) {
-        Object.entries(this.user).forEach((element) => {
-          if (element[1] === null) {
-            this.user[element[0]] = '';
-          }
-        });
-      } else {
-        this.$emit('add-user', this.user);
-        this.user = {
-          name: null,
-          userName: null,
-          email: null,
-          role: 'Admin',
-        };
-        this.toggleModal();
+      ]
+
+      toggleModal() {
+        this.displayModal = !this.displayModal;
       }
-    },
-  },
-};
+
+      onSubmit() {
+        if (Object.values(this.user).includes(null)) {
+          Object.entries(this.user).forEach((element) => {
+            if (element[1] === null) {
+              this.user[element[0]] = '';
+            }
+          });
+        } else {
+          this.$emit('add-user', this.user);
+          this.user = {
+            name: null,
+            userName: null,
+            email: null,
+            role: 'Admin', // how to fix?
+          };
+          this.toggleModal();
+        }
+      }
+}
 </script>
 
 <style lang="scss" scoped>

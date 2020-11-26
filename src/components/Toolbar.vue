@@ -9,33 +9,32 @@
   </Toolbar>
 </template>
 
-<script>
-import Toolbar from 'primevue/toolbar';
+<script lang='ts'>
+import Vue from 'vue';
+import Component from 'vue-class-component';
 import AddUser from './AddUser.vue';
 import SearchBar from './SearchBar.vue';
 
-export default {
-  name: 'Tool',
+@Component({
   components: {
-    Toolbar,
     AddUser,
     SearchBar,
   },
-  data() {
-    return {
-      button: null,
-      displayModal: false,
-    };
-  },
-  methods: {
-    addUser(user) {
-      this.$emit('add-user', user);
-    },
-    setQuery(query) {
-      this.$emit('set-query', query);
-    },
-  },
-};
+})
+
+export default class Toolbar extends Vue {
+  button: null
+
+  displayModal: false
+
+  addUser(user) {
+    this.$emit('add-user', user);
+  }
+
+  setQuery(query) {
+    this.$emit('set-query', query);
+  }
+}
 </script>
 
 <style scoped>
